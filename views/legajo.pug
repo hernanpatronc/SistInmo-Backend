@@ -1,0 +1,285 @@
+- var url = "http://localhost:3000/"
+- var legajo = data.legajos[0].LEGAJO
+- var provincias = data.provincias
+- var tipoinmue = data.tipo_inmue
+- var estado = data.estados
+- var traders = data.traders
+- var codigos = []
+- var subcodigos = []
+- var regiones = []
+- var partidos = []
+- var nuevo = data.nuevo
+- var lat2 = parseFloat(data.legajos[0].COORD_S2)/60
+- var lat3 = parseFloat(data.legajos[0].COORD_S3)/3600
+- var lat = parseFloat(data.legajos[0].COORD_S1) + lat2 + lat3
+- var long1 = parseFloat(data.legajos[0].COORD_W2)/60
+- var long2 = parseFloat(data.legajos[0].COORD_W3)/3600
+- var long = parseFloat(data.legajos[0].COORD_W1) + long1 + long2
+html(xmlns='http://www.w3.org/1999/xhtml')
+    head
+        meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+        title Sistema Inmobiliario - PCYA
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        meta(name='keywords', content='')
+        meta(name='description', content='')
+        link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900', rel='stylesheet')
+        link(href='/default.css', rel='stylesheet', type='text/css', media='all')
+        script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD-GVkhA3bj9wGchtgwvH4gTKXHloZI91A&callback=initMap')
+        link(href='/fonts.css', rel='stylesheet', type='text/css', media='all')
+        script.
+            function initialize() {
+                var cordobaLat = {lat: -#{lat}, lng: -#{long}};
+                var mapProp = {
+                center:new google.maps.LatLng(cordobaLat),
+                zoom:12,
+                mapTypeId:google.maps.MapTypeId.ROADMAP,
+                scrollwheel: false
+                };
+                var map=new google.maps.Map(document.getElementById("header-featured"),mapProp);
+                var cordoba = new google.maps.Marker({
+                position: cordobaLat,
+                map: map,
+                title: 'Ubicación'
+                });
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+            disable = JSON.parse(#{data.nuevo});
+            function openTab(evt, cityName) {
+                // Declare all variables
+                var i, tabcontent, tablinks;
+
+                // Get all elements with class="tabcontent" and hide them
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+
+                // Get all elements with class="tablinks" and remove the class "active"
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+
+                // Show the current tab, and add an "active" class to the link that opened the tab
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+            function changeClass(){
+                var x = document.getElementsByClassName('des');
+                if (!disable){
+                    for(var i = 0; i < x.length; i++){
+                       x[i].disabled = true;
+                    }
+                    disable = true;
+                }
+                else {
+                    for(var i = 0; i < x.length; i++){
+                       x[i].disabled = false;
+                    }
+                    disable = false;
+                }
+            }
+
+            function deleteLegajo(legajo){
+                var xhttp = new XMLHttpRequest();
+                xhttp.open('DELETE', '/?legajo='+legajo, true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send('legajo='+legajo);
+                xhttp.addEventListener('load', function(err){
+                    if(xhttp.responseText=='1'){
+                        alert("Registro: "+legajo+" eliminado");
+                        window.location.reload(true);
+                    }
+                });
+            }
+            function expand(str){
+                    var copy = document.getElementById(str);
+                    if(copy.style.display == "block")
+                        copy.style.display = "none";
+                    else copy.style.display="block";
+            }
+    
+        mixin legajoGral
+                    #General.tabcontent
+                            h2(id="prueba") Legajo General
+                            #formularioLeg()
+                                form()
+                                    label Fecha
+                                    input(name="FECHA", type="date", value=data.legajos[0]["DATE_FORMAT(FECHA,'%Y-%m-%d')"]).des
+                                    #super
+                                        label.importante Legajo
+                                        input.importante(name="LEGAJO", value=legajo).des
+                                        label.importante Operación
+                                        input.importante(name="OPERACION", value=data.legajos[0].OPERACION).des
+                                    div
+                                        label Tipo de Operación
+                                        select(name="TIPO_OPERA").des
+                                            if data.legajos[0].TIPO_OPERA == "CV"
+                                                option(value="CV") CV - Compraventa
+                                                option(value="AL") AL - Alquiler
+                                            else
+                                                option(value="AL") AL - Alquiler
+                                                option(value="CV") CV - Compraventa
+                                    div
+                                        label País
+                                        select(name="PAIS").des
+                                            each pais, codigo in data.paises
+                                                if codigo == data.legajos[0].PAIS
+                                                    option(selected, value=codigo) #{codigo} - #{pais}
+                                                else
+                                                    option(value=codigo) #{codigo} - #{pais}
+                                    br
+                                    br
+                                    br
+                                    br
+                                    div
+                                        label Estado
+                                        select(name="ESTADO").des
+                                            for esta, clave in estado
+                                                if clave == data.legajos[0].ESTADO
+                                                    option(selected, value=clave) #{clave} - #{esta}
+                                                else
+                                                    option(value=clave) #{clave} - #{esta}
+                                    br
+                                    br
+                                    br
+                                    br
+                                    div
+                                        label.importante Nombre de inmueble
+                                        #nombre 
+                                            input(type="text", name="NOMBRE_INM", value=data.legajos[0].NOMBRE_INM).des
+                                    div
+                                        label Tipo de inmueble
+                                        select(name="TIPO_INMU").des
+                                            for tipo, clave in tipoinmue
+                                                if clave == data.legajos[0].TIPO_INMU
+                                                    option(selected, value=clave) #{clave} - #{tipo}
+                                                else
+                                                    option(value=clave) #{clave} - #{tipo}
+                                    div
+                                        label Provincia
+                                        select(name="PROV").des
+                                            for provincia, clave in provincias
+                                                if clave == data.legajos[0].ZONA
+                                                    option(selected, value=clave) #{clave} - #{provincia}
+                                                else
+                                                    option(value=provincia) #{clave} -  #{provincia}
+                                    br
+                                    br
+                                    #pie
+                                        #header-featured
+                                        table
+                                            tbody
+                                                tr
+                                                    td
+                                                        label Trader
+                                                    td
+                                                        select(name="TRADER").des
+                                                            for trader in traders
+                                                                if trader == data.legajos[0].TRADER
+                                                                    option(selected, value=trader) #{trader}
+                                                                else
+                                                                    option(value=trader) #{trader}
+                                                    td
+                                                        label Productor ofr.
+                                                    td
+                                                        select(name="PRODUCT_O").des
+                                                            for PROD in traders
+                                                                if PROD == data.legajos[0].PRODUCT_O
+                                                                    option(selected, value=trader) #{PROD}
+                                                                else
+                                                                    option(value=trader) #{PROD}
+                                                    td
+                                                        label Coprod. ofr.
+                                                    td
+                                                        input(type="text", width="100px")
+                                                    td
+                                                        input(type="text", width="100px")
+                                                tr
+                                                    td
+                                                        label Trader Externo
+                                                    td
+                                                        select(name="TRADER_ER").des
+                                                            for trader in traders
+                                                                if trader == data.legajos[0].TRADER_ER
+                                                                    option(selected, value=trader) #{trader}
+                                                                else
+                                                                    option(value=trader) #{trader}
+                                                    td 
+                                                        label Repr. Local 
+                                                    td
+                                                        select(name="AGENT_LOCA").des
+                                                            for trader in traders
+                                                                    if trader == data.legajos[0].AGENT_LOCA
+                                                                        option(selected, value=trader) #{trader}
+                                                                    else
+                                                                        option(value=trader) #{trader}
+                                                    td
+                                                        label Informante Ofr.
+                                                    td
+                                                        input(type="text", width="100px")
+                                                    td
+                                                        input(type="text", width="100px")
+                                                tr
+                                                    td
+                                                    td
+                                                    td
+                                                        label Repr. Zonal
+                                                    td
+                                                        select(name="REPRES_ZON").des
+                                                            for trader in traders
+                                                                    if trader == data.legajos[0].REPRES_ZON
+                                                                        option(selected, value=trader) #{trader}
+                                                                    else
+                                                                        option(value=trader) #{trader}
+                            button(onclick="changeClass()", class="button2") Modificar
+    body(onload="openTab(event, 'General'); changeClass();")
+        #header-wrapper
+            #header.container
+                img(src='/LOGOPCYA.jpg', width='182', height='100')
+                |     
+                #menu
+                    ul
+                        li.current_page_item
+                            a(href=url, accesskey='1', title='') Inicio PCYA
+                        |         
+                        li
+                            a(href=url+'estacion/?id=1', accesskey='2', title='') Ofrecimientos
+                        |         
+                        li
+                            a(href=url+'estacion/?id=2', accesskey='3', title='') Requerimientos
+                        |         
+                        li
+                            a(href=url+'estacion/?id=3', accesskey='4', title='') Otros
+        #wrapper(onload="changeClass()")
+            if data.legajos[0].TIPO_INMU=="CA"
+                ul.tab
+                  li
+                    a.tablinks(href='#', onclick="openTab(event, 'General')", checked) General
+                  li
+                    a.tablinks(href='#', onclick="openTab(event, 'Campos1')") Campos1
+                  li
+                    a.tablinks(href='#', onclick="openTab(event, 'Campos2')") Campos2
+                +legajoGral
+                #Campos1.tabcontent
+                    h3 Paris
+                    p Paris is the capital of France.
+                #Campos2.tabcontent
+                    h3 Tokyo
+                    p Tokyo is the capital of Japan.
+            else if data.legajos[0].TIPO_INMU=="CC" || data.legajos[0].TIPO_INMU=="TC"
+                ul.tab
+                    li
+                        a.tablinks(href='#', onclick="openTab(event, 'General')", checked) General
+                    li
+                        a.tablinks(href='#', onclick="openTab(event, 'CC-TC1')") CC-TC1
+                    li
+                        a.tablinks(href='#', onclick="openTab(event, 'CC-TC2')") CC-TC2
+                +legajoGral
+                #CC-TC1.tabcontent
+                        h3 Paris
+                        p Paris is the capital of France.
+                #CC-TC2.tabcontent
+                        h3 Tokyo
+                        p Tokyo is the capital of Japan.
+

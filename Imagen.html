@@ -1,0 +1,33 @@
+
+<!DOCTYPE HTML>
+<html><head>
+<title>404 Not Found</title>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.slim.js"
+  integrity="sha256-5i/mQ300M779N2OVDrl16lbohwXNUdzL/R2aVUXyXWA="
+  crossorigin="anonymous"></script>
+</head><body>
+
+<img src ="Original.png" ¿alt="Planets" usemap="#planetmap">
+<map name="planetmap">
+  <area shape="poly" coords="395,138,427,155,431,115,506,176,525,121,439,38" class="Jujuy" style="background-color:powderblue;">
+  <area shape="poly" coords="340,202,394,139,427,160,432,120,470,171,526,167,521,129,481,59,522,87,535,51,582,49,603,71,602,169,510,254,424,257" class="Salta">
+</map>
+<script>
+
+$('.Jujuy').hover(function () {
+        $('img').attr('src', 'Jujuy.png');
+        console.log("Hovereado");
+    }, function () {
+        $('img').attr('src', 'Original.png');
+         console.log("DesHovereado");
+    });
+$('.Salta').hover(function () {
+        $('img').attr('src', 'Salta.png');
+        console.log("Hovereado");
+    }, function () {
+        $('img').attr('src', 'Original.png');
+         console.log("DesHovereado");
+    });
+</script>
+</body></html>
