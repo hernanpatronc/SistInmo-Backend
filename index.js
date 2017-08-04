@@ -22,6 +22,7 @@ app.use(function(req, res, next) {
 });
 
 
+var apiRoutes = express.Router(); 
 
 var connection = mysql.createConnection({
   host     : '127.0.0.1',
@@ -43,21 +44,52 @@ connection.connect(function(err){
 
 var campos = []
 
-app.get("/propiedades", function(req,res){
+apiRoutes.use(function(req, res, next) {
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  if (token) {
+    jwt.verify(token, config.TOKEN_SECRET, function(err, decoded) {      
+      if (err) {
+        return res.send({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        req.decoded = decoded;    
+        next();
+      }
+    });
+  } else {
+    return res.status(403).send({ 
+        success: false, 
+        message: 'No token provided.' 
+    });
+
+  }
+});
+
+app.use('/api', apiRoutes);
+
+app.get("/api/propiedades", function(req,res){
   connection.query("Select LEGAJO, NOMBRE_INM, OPERACION, OFER_REQUE, FECHA from legajos LIMIT 10", function (err,result,fields){
     if (err) throw err;
-    res.send(result);
+    res.send({
+      success : true,
+      data : result
+    });
   });
 });
 
 app.get("/api/fields", function(req,res){
-    res.send(campos);
+    res.send({
+      success: true,
+      data : campos
+    });
 });
 
-app.get("/propiedades/:legajo", function(req,res){
+app.get("/api/propiedades/:legajo", function(req,res){
   connection.query("Select LEGAJO, NOMBRE_INM, OPERACION, OFER_REQUE, FECHA from legajos WHERE LEGAJO='"+ req.params.legajo+"' LIMIT 10", function (err,result,fields){
     if (err) throw err;
-    res.send(result);
+    res.send({
+      success:true,
+      data : result
+    });
   });
 });
 
@@ -118,7 +150,10 @@ app.get("/api/estadisticas", function(req,res){
       }
       estadisticas.PRODUCTORES[3][estadisticas.PRODUCTORES[0].indexOf(name)] = traders[i].TOT
     }
-    res.send(estadisticas);
+    res.send({
+      success : true,
+      data : estadisticas
+    });
   });
 });
 
@@ -128,7 +163,7 @@ app.post("/api/user/new", function(req,res){
       if (err) throw err;
       same_name_user = result.filter(function(user){ return user.username === req.body.new_user.username });
       if (same_name_user.length != 0){
-        res.json({
+        res.send({
           success: false,
           message: 'Existing username'
         });
@@ -136,7 +171,7 @@ app.post("/api/user/new", function(req,res){
       else {
         connection.query("INSERT INTO usuarios VALUES ('"+req.body.new_user.username+"','"+req.body.new_user.password+"','"+req.body.new_user.privileges+"','"+req.body.new_user.alias+"')", function (err,result,fields){
           if (err) throw err;
-          res.json({
+          res.send({
             success: true,
             message: 'User created'
           });
@@ -145,7 +180,7 @@ app.post("/api/user/new", function(req,res){
     });
   }
   else {
-    res.json({
+    res.send({
       success : false,
       message : "Privilege error"
     });
@@ -156,41 +191,43 @@ app.put("/api/user/new", function(req,res){
   if(req.body.user.privileges==user_config.PRIVILEGES.PRIV_ALL) {
         connection.query("UPDATE usuarios SET privileges='"+req.body.new_user.privileges+"' WHERE username='"+req.body.new_user.username+"'", function (err,result,fields){
           if (err) throw err;
-          res.json({
+          res.send({
             success: true,
             message: 'User privileges updated'
           });
         });
   }
   else {
-    res.json({
+    res.send({
       success : false,
       message : "Privilege error"
     });
   }
 });
 
-app.post("/api/user", function(req,res){
+app.post("/user", function(req,res){
   connection.query("Select * from usuarios", function (err,result,fields){
     if (err) throw err;
     user = result.filter(function(user){ return user.username === req.body.username });
     if (user.length== 0) {
-        res.json({
+        res.send({
           success : false,
           message : "Invalid username"
       });
     }
     else if (user[0].password != req.body.password) {
-      res.json({
+      res.send({
           success : false,
           message : "Invalid password"
       });
     }
     else {
       var token = jwt.sign({
-      user : user[0].username,
-    }, config.TOKEN_SECRET);
-    res.json({
+      user : user[0].username
+    }, config.TOKEN_SECRET, {
+      expiresIn : "14d"
+    });
+    res.send({
           success: true,
           message: 'Logged In',
           user : user[0],
@@ -203,9 +240,9 @@ app.post("/api/user", function(req,res){
 app.get("/api/user", function(req,res){
     connection.query("Select username,privileges,alias from usuarios", function (err,result,fields){
       if (err) throw err;
-      res.json({
+      res.send({
         success: true,
-        users : result
+        data : result
       });
     });
 });
