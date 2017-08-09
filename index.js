@@ -67,7 +67,7 @@ apiRoutes.use(function(req, res, next) {
 app.use('/api', apiRoutes);
 
 app.get("/api/propiedades", function(req,res){
-  connection.query("Select LEGAJO, NOMBRE_INM, OPERACION, OFER_REQUE, FECHA from legajos LIMIT 10", function (err,result,fields){
+  connection.query("Select LEGAJO, NOMBRE_INM, OPERACION, OFER_REQUE, FECHA from legajos LIMIT 100", function (err,result,fields){
     if (err) throw err;
     res.send({
       success : true,
@@ -84,7 +84,7 @@ app.get("/api/fields", function(req,res){
 });
 
 app.get("/api/propiedades/:legajo", function(req,res){
-  connection.query("Select LEGAJO, NOMBRE_INM, OPERACION, OFER_REQUE, FECHA from legajos WHERE LEGAJO='"+ req.params.legajo+"' LIMIT 10", function (err,result,fields){
+  connection.query("Select * from legajos WHERE LEGAJO='"+ req.params.legajo+"' LIMIT 10", function (err,result,fields){
     if (err) throw err;
     res.send({
       success:true,
