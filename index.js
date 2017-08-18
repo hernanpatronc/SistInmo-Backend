@@ -3,12 +3,8 @@
 var express = require('express');
 var app = express();
 var mysql = require('mysql');
-var pug = require('pug');
 var bodyParser = require('body-parser');
-app.set('view engine', 'pug');
 app.use(express.static('public'));
-var request = require('request');
-const util = require('util');
 var jwt    = require('jsonwebtoken');
 var config = require('./secret-config.js')
 var user_config = require('./users.js')
