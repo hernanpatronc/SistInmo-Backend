@@ -154,6 +154,7 @@ app.get("/api/estadisticas", function(req,res){
 });
 
 app.post("/api/user/new", function(req,res){
+  console.log(req.body.user.privileges==user_config.PRIVILEGES.PRIV_ALL)
   if(req.body.user.privileges==user_config.PRIVILEGES.PRIV_ALL) {
     connection.query("Select * from usuarios", function (err,result,fields){
       if (err) throw err;
