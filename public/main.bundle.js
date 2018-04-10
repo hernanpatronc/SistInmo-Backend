@@ -38,7 +38,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"wrapper\">\n  <div class=\"sidebar navbar-collapse collapse show\" id=\"demo\" data-color=\"orange\" data-image=\"\">\n      <sidebar-cmp></sidebar-cmp>\n      <div class=\"sidebar-background\" style=\"background-image: url(/assets/img/sidebar-5.jpg)\"></div>\n  </div>\n\n  <div class=\"main-panel\">\n      <navbar-cmp></navbar-cmp>\n      <dashboard-cmp></dashboard-cmp>\n      <div *ngIf=\"!isMaps('/maps')\">\n      </div>\n  </div>\n</div>\n"
+module.exports = "<app-notify *ngFor=\"let notification of notificationService.notificationList\" [alertType]=\"notification.type\" [state]=\"notification.class\" [top]=\"notification.marginTop\">{{notification.text}}</app-notify>\n<!-- <button (click)=\"notificationService.newNotification('success','Success')\">Clickeame</button> -->\n<div class=\"wrapper\">\n  <div class=\"sidebar navbar-collapse collapse show\" id=\"demo\" data-color=\"orange\" data-image=\"\">\n      <sidebar-cmp></sidebar-cmp>\n      <div class=\"sidebar-background\" style=\"background-image: url(/assets/img/sidebar-5.jpg)\"></div>\n  </div>\n\n  <div class=\"main-panel\">\n      <navbar-cmp></navbar-cmp>\n      <dashboard-cmp></dashboard-cmp>\n      <div *ngIf=\"!isMaps('/maps')\">\n      </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -49,6 +49,7 @@ module.exports = "<div class=\"wrapper\">\n  <div class=\"sidebar navbar-collaps
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__notify_notify_service__ = __webpack_require__("../../../../../src/app/notify/notify.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -60,8 +61,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var AppComponent = /** @class */ (function () {
-    function AppComponent(location) {
+    function AppComponent(location, notificationService) {
+        this.notificationService = notificationService;
         this.location = location;
     }
     AppComponent.prototype.ngOnInit = function () {
@@ -83,7 +86,7 @@ var AppComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/app.component.html"),
             styles: [__webpack_require__("../../../../../src/app/app.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common__["f" /* Location */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common__["f" /* Location */], __WEBPACK_IMPORTED_MODULE_2__notify_notify_service__["a" /* NotifyService */]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -112,12 +115,16 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_authentication_service__ = __webpack_require__("../../../../../src/app/services/authentication.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__authentication_auth_guard__ = __webpack_require__("../../../../../src/app/authentication/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__notify_notify_component__ = __webpack_require__("../../../../../src/app/notify/notify.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__notify_notify_service__ = __webpack_require__("../../../../../src/app/notify/notify.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -148,8 +155,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser_animations__["a" /* NoopAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_router__["c" /* RouterModule */].forRoot([])
             ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */], __WEBPACK_IMPORTED_MODULE_6__dashboard_dashboard_component__["a" /* DashboardComponent */]],
-            providers: [{ provide: __WEBPACK_IMPORTED_MODULE_10__angular_common__["g" /* LocationStrategy */], useClass: __WEBPACK_IMPORTED_MODULE_10__angular_common__["h" /* PathLocationStrategy */] }, __WEBPACK_IMPORTED_MODULE_11__services_propiedades_service__["a" /* PropiedadesService */], __WEBPACK_IMPORTED_MODULE_13__services_authentication_service__["a" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_14__authentication_auth_guard__["b" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_14__authentication_auth_guard__["a" /* AdminGuard */]],
+            declarations: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */], __WEBPACK_IMPORTED_MODULE_6__dashboard_dashboard_component__["a" /* DashboardComponent */], __WEBPACK_IMPORTED_MODULE_15__notify_notify_component__["a" /* NotifyComponent */]],
+            providers: [{ provide: __WEBPACK_IMPORTED_MODULE_10__angular_common__["g" /* LocationStrategy */], useClass: __WEBPACK_IMPORTED_MODULE_10__angular_common__["h" /* PathLocationStrategy */] }, __WEBPACK_IMPORTED_MODULE_11__services_propiedades_service__["a" /* PropiedadesService */], __WEBPACK_IMPORTED_MODULE_13__services_authentication_service__["a" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_14__authentication_auth_guard__["b" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_14__authentication_auth_guard__["a" /* AdminGuard */], __WEBPACK_IMPORTED_MODULE_16__notify_notify_service__["a" /* NotifyService */]],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
@@ -351,17 +358,16 @@ var DashboardModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__user_user_component__ = __webpack_require__("../../../../../src/app/dashboard/user/user.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__icons_icons_component__ = __webpack_require__("../../../../../src/app/dashboard/icons/icons.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__table_table_component__ = __webpack_require__("../../../../../src/app/dashboard/table/table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__notifications_notifications_component__ = __webpack_require__("../../../../../src/app/dashboard/notifications/notifications.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__typography_typography_component__ = __webpack_require__("../../../../../src/app/dashboard/typography/typography.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__maps_maps_component__ = __webpack_require__("../../../../../src/app/dashboard/maps/maps.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__login_login_component__ = __webpack_require__("../../../../../src/app/dashboard/login/login.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__property_property_component__ = __webpack_require__("../../../../../src/app/dashboard/property/property.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__authentication_auth_guard__ = __webpack_require__("../../../../../src/app/authentication/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__typography_typography_component__ = __webpack_require__("../../../../../src/app/dashboard/typography/typography.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__maps_maps_component__ = __webpack_require__("../../../../../src/app/dashboard/maps/maps.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__login_login_component__ = __webpack_require__("../../../../../src/app/dashboard/login/login.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__property_property_component__ = __webpack_require__("../../../../../src/app/dashboard/property/property.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__authentication_auth_guard__ = __webpack_require__("../../../../../src/app/authentication/auth.guard.ts");
 
 
 
 
-
+// import { NotificationsComponent } from './notifications/notifications.component';
 
 
 
@@ -369,25 +375,25 @@ var DashboardModule = /** @class */ (function () {
 
 var MODULE_ROUTES = [
     { path: '', redirectTo: 'table', pathMatch: 'full' },
-    { path: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_0__home_home_component__["a" /* HomeComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__authentication_auth_guard__["a" /* AdminGuard */]] },
-    { path: 'property/:legajo', component: __WEBPACK_IMPORTED_MODULE_8__property_property_component__["a" /* PropertyComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__authentication_auth_guard__["b" /* AuthGuard */]] },
-    { path: 'table', component: __WEBPACK_IMPORTED_MODULE_3__table_table_component__["a" /* TableComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__authentication_auth_guard__["b" /* AuthGuard */]] },
-    { path: 'icons', component: __WEBPACK_IMPORTED_MODULE_2__icons_icons_component__["a" /* IconsComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__authentication_auth_guard__["b" /* AuthGuard */]] },
-    { path: 'notifications', component: __WEBPACK_IMPORTED_MODULE_4__notifications_notifications_component__["a" /* NotificationsComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__authentication_auth_guard__["b" /* AuthGuard */]] },
-    { path: 'user', component: __WEBPACK_IMPORTED_MODULE_1__user_user_component__["a" /* UserComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__authentication_auth_guard__["a" /* AdminGuard */]] },
-    { path: 'maps', component: __WEBPACK_IMPORTED_MODULE_6__maps_maps_component__["a" /* MapsComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_9__authentication_auth_guard__["b" /* AuthGuard */]] },
-    { path: 'login', component: __WEBPACK_IMPORTED_MODULE_7__login_login_component__["a" /* LoginComponent */] }
+    { path: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_0__home_home_component__["a" /* HomeComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_8__authentication_auth_guard__["a" /* AdminGuard */]] },
+    { path: 'property/:legajo', component: __WEBPACK_IMPORTED_MODULE_7__property_property_component__["a" /* PropertyComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_8__authentication_auth_guard__["b" /* AuthGuard */]] },
+    { path: 'table', component: __WEBPACK_IMPORTED_MODULE_3__table_table_component__["a" /* TableComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_8__authentication_auth_guard__["b" /* AuthGuard */]] },
+    { path: 'icons', component: __WEBPACK_IMPORTED_MODULE_2__icons_icons_component__["a" /* IconsComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_8__authentication_auth_guard__["b" /* AuthGuard */]] },
+    // { path: 'notifications', component: NotificationsComponent , canActivate: [AuthGuard]},
+    { path: 'user', component: __WEBPACK_IMPORTED_MODULE_1__user_user_component__["a" /* UserComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_8__authentication_auth_guard__["a" /* AdminGuard */]] },
+    { path: 'maps', component: __WEBPACK_IMPORTED_MODULE_5__maps_maps_component__["a" /* MapsComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_8__authentication_auth_guard__["b" /* AuthGuard */]] },
+    { path: 'login', component: __WEBPACK_IMPORTED_MODULE_6__login_login_component__["a" /* LoginComponent */] }
 ];
 var MODULE_COMPONENTS = [
     __WEBPACK_IMPORTED_MODULE_0__home_home_component__["a" /* HomeComponent */],
     __WEBPACK_IMPORTED_MODULE_1__user_user_component__["a" /* UserComponent */],
     __WEBPACK_IMPORTED_MODULE_3__table_table_component__["a" /* TableComponent */],
     __WEBPACK_IMPORTED_MODULE_2__icons_icons_component__["a" /* IconsComponent */],
-    __WEBPACK_IMPORTED_MODULE_4__notifications_notifications_component__["a" /* NotificationsComponent */],
-    __WEBPACK_IMPORTED_MODULE_5__typography_typography_component__["a" /* TypographyComponent */],
-    __WEBPACK_IMPORTED_MODULE_6__maps_maps_component__["a" /* MapsComponent */],
-    __WEBPACK_IMPORTED_MODULE_7__login_login_component__["a" /* LoginComponent */],
-    __WEBPACK_IMPORTED_MODULE_8__property_property_component__["a" /* PropertyComponent */]
+    // NotificationsComponent,
+    __WEBPACK_IMPORTED_MODULE_4__typography_typography_component__["a" /* TypographyComponent */],
+    __WEBPACK_IMPORTED_MODULE_5__maps_maps_component__["a" /* MapsComponent */],
+    __WEBPACK_IMPORTED_MODULE_6__login_login_component__["a" /* LoginComponent */],
+    __WEBPACK_IMPORTED_MODULE_7__property_property_component__["a" /* PropertyComponent */]
 ];
 
 
@@ -526,6 +532,7 @@ module.exports = "<div class=\"main-content\" >\r\n    <div class=\"container-fl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_authentication_service__ = __webpack_require__("../../../../../src/app/services/authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__notify_notify_service__ = __webpack_require__("../../../../../src/app/notify/notify.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -573,12 +580,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
+
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(route, router, authenticationService) {
+    function LoginComponent(route, router, authenticationService, notifyService) {
         var _this = this;
         this.route = route;
         this.router = router;
         this.authenticationService = authenticationService;
+        this.notifyService = notifyService;
         this.onLogin = function () { return __awaiter(_this, void 0, void 0, function () {
             var currentUser, error_1;
             return __generator(this, function (_a) {
@@ -593,13 +602,14 @@ var LoginComponent = /** @class */ (function () {
                                 this.router.navigate(["./dashboard"]);
                             else
                                 this.router.navigate(["./table"]);
-                            // initNotify("Bienvenido " + currentUser.alias, 2);
+                            this.notifyService.newNotification("success", "Bienvenido " + currentUser.alias);
                         }
                         return [3 /*break*/, 3];
                     case 2:
                         error_1 = _a.sent();
                         this.user = "";
                         this.password = "";
+                        this.notifyService.newNotification("danger", "Error de conexion " + error_1);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -618,7 +628,8 @@ var LoginComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_2__services_authentication_service__["a" /* AuthenticationService */]])
+            __WEBPACK_IMPORTED_MODULE_2__services_authentication_service__["a" /* AuthenticationService */],
+            __WEBPACK_IMPORTED_MODULE_3__notify_notify_service__["a" /* NotifyService */]])
     ], LoginComponent);
     return LoginComponent;
 }());
@@ -674,43 +685,6 @@ var MapsComponent = /** @class */ (function () {
         })
     ], MapsComponent);
     return MapsComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "../../../../../src/app/dashboard/notifications/notifications.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"main-content\" >\r\n    <div class=\"container-fluid\">\r\n        <div class=\"card\" >\r\n            <div class=\"header\">\r\n                <h4 class=\"title\">Notifications</h4>\r\n                <p class=\"category\">Handcrafted by our friend <a target=\"_blank\" href=\"https://github.com/mouse0270\">Robert McIntosh</a>. Please checkout the <a href=\"http://bootstrap-notify.remabledesigns.com/\" target=\"_blank\">full documentation.</a></p>\r\n            </div>\r\n            <div class=\"content\">\r\n                <div class=\"row\">\r\n                    <div class=\"col-md-6\">\r\n                        <h5>Notifications Style</h5>\r\n                        <div class=\"alert alert-info\">\r\n                            <span>This is a plain notification</span>\r\n                        </div>\r\n                        <div class=\"alert alert-info\">\r\n                            <button type=\"button\" aria-hidden=\"true\" class=\"close\">×</button>\r\n                            <span>This is a notification with close button.</span>\r\n                        </div>\r\n                        <div class=\"alert alert-info alert-with-icon\" data-notify=\"container\">\r\n                            <button type=\"button\" aria-hidden=\"true\" class=\"close\">×</button>\r\n                            <span data-notify=\"icon\" class=\"pe-7s-bell\"></span>\r\n                            <span data-notify=\"message\">This is a notification with close button and icon.</span>\r\n                        </div>\r\n                        <div class=\"alert alert-info alert-with-icon\" data-notify=\"container\">\r\n                            <button type=\"button\" aria-hidden=\"true\" class=\"close\">×</button>\r\n                            <span data-notify=\"icon\" class=\"pe-7s-bell\"></span>\r\n                            <span data-notify=\"message\">This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style.</span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-md-6\">\r\n                        <h5>Notification states</h5>\r\n                        <div class=\"alert alert-info\">\r\n                            <button type=\"button\" aria-hidden=\"true\" class=\"close\">×</button>\r\n                            <span><b> Info - </b> This is a regular notification made with \".alert-info\"</span>\r\n                        </div>\r\n                        <div class=\"alert alert-success\">\r\n                            <button type=\"button\" aria-hidden=\"true\" class=\"close\">×</button>\r\n                            <span><b> Success - </b> This is a regular notification made with \".alert-success\"</span>\r\n                        </div>\r\n                        <div class=\"alert alert-warning\">\r\n                            <button type=\"button\" aria-hidden=\"true\" class=\"close\">×</button>\r\n                            <span><b> Warning - </b> This is a regular notification made with \".alert-warning\"</span>\r\n                        </div>\r\n                        <div class=\"alert alert-danger\">\r\n                            <button type=\"button\" aria-hidden=\"true\" class=\"close\">×</button>\r\n                            <span><b> Danger - </b> This is a regular notification made with \".alert-danger\"</span>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <br>\r\n                <br>\r\n                <div class=\"places-buttons\">\r\n                    <div class=\"row\">\r\n                        <div class=\"col-md-6 col-md-offset-3 text-center\">\r\n                            <h5>Notifications Places\r\n                                <p class=\"category\">Click to view notifications</p>\r\n                            </h5>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"row\">\r\n                        <div class=\"col-md-3 col-md-offset-2\">\r\n                            <button class=\"btn btn-default btn-block\" onclick=\"demo.showNotification('top','left')\">Top Left</button>\r\n                        </div>\r\n                        <div class=\"col-md-3\">\r\n                            <button class=\"btn btn-default btn-block\" onclick=\"demo.showNotification('top','center')\">Top Center</button>\r\n                        </div>\r\n                        <div class=\"col-md-3\">\r\n                            <button class=\"btn btn-default btn-block\" onclick=\"demo.showNotification('top','right')\">Top Right</button>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"row\">\r\n                        <div class=\"col-md-3 col-md-offset-2\">\r\n                            <button class=\"btn btn-default btn-block\" onclick=\"demo.showNotification('bottom','left')\">Bottom Left</button>\r\n                        </div>\r\n                        <div class=\"col-md-3\">\r\n                            <button class=\"btn btn-default btn-block\" onclick=\"demo.showNotification('bottom','center')\">Bottom Center</button>\r\n                        </div>\r\n                        <div class=\"col-md-3\">\r\n                            <button class=\"btn btn-default btn-block\" onclick=\"demo.showNotification('bottom','right')\">Bottom Right</button>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
-
-/***/ }),
-
-/***/ "../../../../../src/app/dashboard/notifications/notifications.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationsComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var NotificationsComponent = /** @class */ (function () {
-    function NotificationsComponent() {
-    }
-    NotificationsComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            moduleId: module.i,
-            selector: 'notifications-cmp',
-            template: __webpack_require__("../../../../../src/app/dashboard/notifications/notifications.component.html")
-        })
-    ], NotificationsComponent);
-    return NotificationsComponent;
 }());
 
 
@@ -2054,6 +2028,140 @@ var Property = /** @class */ (function () {
     function Property() {
     }
     return Property;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/notify/notify.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "@-webkit-keyframes notificationStart {\r\n    from {top: -50px;opacity: 0;}\r\n    to {top: 0px;opacity: 1;}\r\n}\r\n@keyframes notificationStart {\r\n    from {top: -50px;opacity: 0;}\r\n    to {top: 0px;opacity: 1;}\r\n}\r\n@-webkit-keyframes notificationEnd {\r\n    from {top: 0px;opacity: 1.0;}\r\n    to {top: -50px;opacity: 0;}\r\n}\r\n@keyframes notificationEnd {\r\n    from {top: 0px;opacity: 1.0;}\r\n    to {top: -50px;opacity: 0;}\r\n}\r\n.notification {\r\n    border-radius: 25px;\r\n    position: fixed !important;\r\n    float: right;\r\n    /* animation-name: test;\r\n    animation-duration: 2s; */\r\n    height: 50px;\r\n    opacity: 1.0;\r\n    /* margin-top: 50px; */\r\n    right: 10px;\r\n    width: 30%;\r\n    top: 0px;\r\n    z-index:100;\r\n    -webkit-animation: notificationStart 1s ease-in;\r\n            animation: notificationStart 1s ease-in;\r\n}\r\n.destroy {\r\n    -webkit-animation: notificationEnd 1s ease-in-out;\r\n            animation: notificationEnd 1s ease-in-out;\r\n}\r\n\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/notify/notify.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"notification alert alert-{{alertType}} {{state}} alert-dismissible fade show\" [ngStyle]=\"{ 'margin-top' : top + 'px' }\" id=\"notification\" role=\"alert\">\n  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n    <span aria-hidden=\"true\">&times;</span>\n    <!-- [@notificationState]=\"state\" -->\n  </button>\n  <ng-content></ng-content>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/notify/notify.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotifyComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__notify_service__ = __webpack_require__("../../../../../src/app/notify/notify.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var NotifyComponent = /** @class */ (function () {
+    function NotifyComponent(notifyService) {
+        var _this = this;
+        this.notifyService = notifyService;
+        this.alertType = "success";
+        this.state = "create";
+        this.top = 0;
+        this.closeNotification = function () {
+            _this.notifyService.marginTop -= 80;
+        };
+    }
+    NotifyComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", String)
+    ], NotifyComponent.prototype, "alertType", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", String)
+    ], NotifyComponent.prototype, "state", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
+        __metadata("design:type", Number)
+    ], NotifyComponent.prototype, "top", void 0);
+    NotifyComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-notify',
+            template: __webpack_require__("../../../../../src/app/notify/notify.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/notify/notify.component.css")],
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__notify_service__["a" /* NotifyService */]])
+    ], NotifyComponent);
+    return NotifyComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/notify/notify.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotifyService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var NotifyService = /** @class */ (function () {
+    function NotifyService() {
+        var _this = this;
+        this.notificationList = [];
+        this.marginTop = 0;
+        this.newNotification = function (type, text) {
+            _this.marginTop += 80;
+            var newNotification = {
+                text: text,
+                type: type,
+                marginTop: _this.marginTop,
+                class: "create"
+            };
+            _this.notificationList.push(newNotification);
+            //const index = this.notificationList.length;
+            setTimeout(function () {
+                _this.notificationList[0].class = "destroy";
+                _this.marginTop -= 80;
+                setTimeout(function () {
+                    _this.notificationList.splice(0, 1);
+                }, 1000);
+            }, 4000);
+        };
+    }
+    NotifyService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [])
+    ], NotifyService);
+    return NotifyService;
 }());
 
 

@@ -329,6 +329,8 @@ app.get("/api/user", function(req, res) {
   });
 });
 
+app.use(express.static("public"));
+
 app.listen(process.env.PORT || 3002, function() {
   console.log("Listening port " + process.env.PORT || 3002);
 });
